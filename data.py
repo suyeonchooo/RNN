@@ -27,7 +27,7 @@ sst_labels = [item['sentiment'] for item in sst_data]
 #######################################################
 
 # GPT-2 모델 및 토크나이저 로드
-gpt2_model = GPT2Model.from_pretrained('gpt2').to(device)       # GPU로 이동
+gpt2_model = GPT2Model.from_pretrained('gpt2').to(device)
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 
 # 패딩 토큰 설정 (eos_token을 pad_token으로 사용)
@@ -42,8 +42,8 @@ print("The tokenization has been successfully completed.")
 sst_dataset = TensorDataset(sst_tokenized_texts['input_ids'], sst_tokenized_texts['attention_mask'])
 
 # DataLoader로 batch size 설정
-# batch size를 명시적으로 설정하지 않으면, SST 데이터셋 전체를 한 번에 토큰화하고, 이를 모델에 입력으로 사용하게 됨
-# (batch size: 모델이 한 번에 처리하는 입력 데이터의 개수)
+# - batch size를 명시적으로 설정하지 않으면, SST 데이터셋 전체를 한 번에 토큰화하고, 이를 모델에 입력으로 사용하게 됨
+# - (batch size: 모델이 한 번에 처리하는 입력 데이터의 개수)
 batch_size = 16
 sst_loader = DataLoader(sst_dataset, batch_size=batch_size)
 
@@ -51,7 +51,7 @@ sst_loader = DataLoader(sst_dataset, batch_size=batch_size)
 sst_embeddings = []
 with torch.no_grad():
     for input_ids, attention_mask in sst_loader:
-        input_ids, attention_mask = input_ids.to(device), attention_mask.to(device)   
+        input_ids, attention_mask = input_ids.to(device), attention_mask.to(device)
         outputs = gpt2_model(input_ids=input_ids, attention_mask=attention_mask)
         sst_embeddings.append(outputs.last_hidden_state)
     print("Embedding vector extraction completed.")
