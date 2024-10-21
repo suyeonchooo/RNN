@@ -18,8 +18,8 @@ for epoch in range(EPOCHS):
         prediction = myRNN.forward()
         print("The forward pass was successful.")
 
-        loss = myRNN.binary_cross_entropy_loss(prediction, data.sst_labels)
-        print("The loss was successfully obtained.")
-        print(f'loss: {loss}')
+        # loss = myRNN.binary_cross_entropy_loss(prediction, data.sst_labels)
+        # print("The loss was successfully obtained.")
+        # print(f'loss: {loss}')
 
         # pred = myRNN.prediction(h)

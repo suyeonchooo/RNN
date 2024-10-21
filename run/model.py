@@ -25,31 +25,34 @@ class RNNModel():
         self.W_xh = torch.randn(self.input_size, self.hidden_size, device=device)
         self.W_hy = torch.randn(self.hidden_size, self.output_size, device=device)
 
-        # print(f'input: {self.input.size()}')
-        # print(f'input size: {self.input_size}')
-        # print(f'batch size: {self.batch_size}')
-        # print(f'sequence length: {self.sequence_length}')
-        # print(f'hidden size: {self.hidden_size}')
-        # print(f'output size: {self.output_size}')
+        print(f'input: {self.input.size()}')
+        print(f'input size: {self.input_size}')
+        print(f'batch size: {self.batch_size}')
+        print(f'sequence length: {self.sequence_length}')
+        print(f'hidden size: {self.hidden_size}')
+        print(f'output size: {self.output_size}')
 
-        # # print(f'W_hh: {self.W_hh}')
-        # print(f'W_hh size: {self.W_hh.size()}')
-        # # print(f'W_xh: {self.W_xh}')
-        # print(f'W_xh size: {self.W_xh.size()}')
-        # # print(f'W_hy: {self.W_hy}')
-        # print(f'W_hy size: {self.W_hy.size()}')
+        # print(f'W_hh: {self.W_hh}')
+        print(f'W_hh size: {self.W_hh.size()}')
+        # print(f'W_xh: {self.W_xh}')
+        print(f'W_xh size: {self.W_xh.size()}')
+        # print(f'W_hy: {self.W_hy}')
+        print(f'W_hy size: {self.W_hy.size()}')
     
     def forward(self):
         hidden_state = torch.zeros(self.batch_size, self.hidden_size).to(device)        # 초기 hidden state
 
         for t in range(self.sequence_length):
-            x_t = self.input[:, t, :]
+            x_t = self.input[:, t, :]                                                   # batch 전부 가져오고, 각 t에 맞는 sequence 가져오고, feature 전부 가져옴
 
             h = torch.matmul(hidden_state, self.W_hh)
             x = torch.matmul(x_t, self.W_xh)
             updated_h = torch.tanh(h + x)
 
-            hidden_state = updated_h                                                    # hidden state update           
+            hidden_state = updated_h                                                    # hidden state update 
+        print(f'x_t size: {x_t.size()}') 
+        print(f'x size: {x.size()}')
+        print(f'h size: {h.size()}')         
 
         logits = torch.matmul(updated_h, self.W_hy)
         print(logits)
